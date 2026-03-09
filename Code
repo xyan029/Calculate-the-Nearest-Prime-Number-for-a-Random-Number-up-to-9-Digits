@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <math.h>
+
+int is_prime(long long n) {
+    if (n < 2) return 0;
+    for (long long i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    long long num;
+    printf("Enter a number (up to 9 digits): ");
+    scanf("%lld", &num);
+
+    // Validate up to 9-digit input
+    if (num < 1 || num > 999999999) {
+        printf("Please enter a valid number up to 9 digits.\n");
+        return 1;
+    }
+
+    // Search downward for nearest prime below
+    long long lower = num - 1;
+    while (lower >= 2 && !is_prime(lower)) lower--;
+
+    // Search upward for nearest prime above
+    long long upper = num + 1;
+    while (!is_prime(upper)) upper++;
+
+    // Check if the number itself is prime
+    if (is_prime(num)) {
+        printf("%lld is already a prime number!\n", num);
+    }
+
+    printf("Nearest prime below: %lld\n", lower);
+    printf("Nearest prime above: %lld\n", upper);
+}
